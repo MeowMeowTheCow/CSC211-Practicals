@@ -2,15 +2,15 @@ import java.util.Random;
 public class mcsTests {
 
     public static int[] makeArray(int n) {
-        Random r = new Random();
+        Random rand = new Random();
         int[] arr = new int[n];
 
         for (int i = 0; i < n; i++) {
-            int val = r.nextInt(n) + 1;
-            if (r.nextInt(3) == 0) {
-                val = -val;
+            int value = rand.nextInt(n) + 1;
+            if (rand.nextInt(3) == 0) {
+                value = -value;
             }
-            arr[i] = val;
+            arr[i] = value;
         }
         return arr;
     }
@@ -104,5 +104,34 @@ public class mcsTests {
         return count;
     }
     
+    public static void main(String[] args) {
+            
+        int[] sizes = {100, 1000, 10000, 100000, 1000000};
+        System.out.printf("%-10s %-15s %-15s %-15s %-15s\n",
+                "n", "O(n^3)", "O(n^2)A", "O(n^2)B", "O(n)");
+        
+        for (int n : sizes) {
+            int[] runs = makeArray(n);
+            long count3 = -1;
+            long count2A = -1;
+            long count2B = -1;
+            long count1;
+
+            if (n <= 1000) {
+                count3 = mcsOn3(runs);
+            }
+             
+            if (n <= 10000) {
+                count2A = mcsOn2A(runs);
+                count2B = mcsOn2B(runs);
+            }
+
+            count1 = mcsOn(runs);
+            System.out.printf("%-10d %-15d %-15d %-15d %-15d\n",
+                    n, count3, count2A, count2B, count1);
+
+        }
+            
+    }
 
 }
