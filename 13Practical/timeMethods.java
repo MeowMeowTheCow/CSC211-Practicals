@@ -6,13 +6,12 @@ import java.util.Random;
 
 public class timeMethods{
 public static int N = 32654;
-public static int reps = 30;
 public static void main(String args[]){
 
 DecimalFormat twoD = new DecimalFormat("0.00");
 DecimalFormat fourD = new DecimalFormat("0.0000");
 DecimalFormat fiveD = new DecimalFormat("0.00000");
-
+int repetitions = 30;
 Random rand = new Random();
 int[] searchKeys = new int[reps];
         
@@ -64,5 +63,3 @@ int repetition, repetitions = 30;
 static void oneofyourMethods(int n, 
                        yourMethodParameter1,
                        yourMethodParameter2, . . . ) {
-// The declarations and body of your method / s   
-// The final statement of this code.} }
