@@ -1,4 +1,3 @@
-
 import java.lang.Math.*;   
 import java.io.*;   
 import java.text.*;
@@ -70,14 +69,30 @@ int repetition, repetitions = 30;
    System.out.println("Repetitions  =             " + repetitions);
    System.out.println("________________________________________________");
    System.out.println();
-   System.out.println(); }	} 
+   System.out.println(); }	
 
- static Node linearSearch(int key) {
-        for (int i = 0; i < records.length; i++) {
-            if (records[i].key == key) {
-                return records[i];
+   static Node linearSearch(int key) {
+      for (int i = 0; i < records.length; i++) {
+         if (records[i].key == key) {
+            return records[i];
+            }
+         }
+      return null;
+   }
+
+   static Node binarySearch(int key) {
+      int left = 0, right = records.length - 1;
+         while (left <= right) {
+            int mid = left + (right - left) / 2;
+            int midKey = records[mid].key;
+            
+            if (midKey == key) {
+               return records[mid];
+            } else if (midKey < key) {
+               left = mid + 1;
+            } else {
+               right = mid - 1;
             }
         }
-        return null;
-    }
-
+      return null;
+   }
