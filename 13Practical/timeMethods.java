@@ -1,13 +1,24 @@
-// Code is stored as 13template.java
-import java.lang.Math.*;   import java.io.*;   import java.text.*;
+
+import java.lang.Math.*;   
+import java.io.*;   
+import java.text.*;
+import java.util.Random;
 
 public class timeMethods{
-public static int N = ....;
+public static int N = 32654;
+public static int reps = 30;
 public static void main(String args[]){
 
 DecimalFormat twoD = new DecimalFormat("0.00");
 DecimalFormat fourD = new DecimalFormat("0.0000");
 DecimalFormat fiveD = new DecimalFormat("0.00000");
+
+Random rand = new Random();
+int[] searchKeys = new int[reps];
+        
+for (int i = 0; i < reps; i++) {
+   searchKeys[i] = rand.nextInt(32654) + 1;
+}
 
 long start, finish;
 double runTime = 0, runTime2 = 0, time;
