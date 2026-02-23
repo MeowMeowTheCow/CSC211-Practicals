@@ -4,20 +4,33 @@ import java.io.*;
 import java.text.*;
 import java.util.Random;
 
-public class timeMethods{
-public static int N = 32654;
-public static void main(String args[]){
-
-DecimalFormat twoD = new DecimalFormat("0.00");
-DecimalFormat fourD = new DecimalFormat("0.0000");
-DecimalFormat fiveD = new DecimalFormat("0.00000");
-int repetitions = 30;
-Random rand = new Random();
-int[] searchKeys = new int[reps];
-        
-for (int i = 0; i < reps; i++) {
-   searchKeys[i] = rand.nextInt(32654) + 1;
+class Node {
+   int key;
+   String data; 
+   Node(int key, String data) {
+      this.key = key;
+      this.data = data;
+   }
 }
+public class timeMethods{
+   static Node[] records;
+   public static int N = 32655;
+   public static void main(String args[])throws IOException {
+      loadData("ulysses.numbered");
+   }
+
+   DecimalFormat twoD = new DecimalFormat("0.00");
+   DecimalFormat fourD = new DecimalFormat("0.0000");
+   DecimalFormat fiveD = new DecimalFormat("0.00000");
+
+   Arrays.sort(records, (a, b) -> Integer.compare(a.key, b.key));
+
+   int reps = 30;
+   Random rand = new Random();
+   int[] searchKeys = new int[reps];
+   for (int i = 0; i < reps; i++) {
+      searchKeys[i] = rand.nextInt(32654) + 1;
+   }
 
 long start, finish;
 double runTime = 0, runTime2 = 0, time;
