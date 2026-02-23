@@ -6,10 +6,10 @@ import java.util.Random;
 
 class Node {
    int key;
-   String data; 
-   Node(int key, String data) {
+   String lines; 
+   Node(int key, String lines) {
       this.key = key;
-      this.data = data;
+      this.lines = lines;
    }
 }
 public class timeMethods{
@@ -54,8 +54,7 @@ int repetition, repetitions = 30;
       runTime2 += (time*time); }
 
    double aveRuntime = runTime/repetitions;
-   double stdDeviation = 
-      Math.sqrt(runTime2 - repetitions*aveRuntime*aveRuntime)/(repetitions-1);
+   double stdDeviation = Math.sqrt((runTime2 - repetitions*aveRuntime*aveRuntime)/(repetitions-1));
 
    System.out.printf("\n\n\fStatistics\n");
    System.out.println("________________________________________________");
@@ -73,6 +72,12 @@ int repetition, repetitions = 30;
    System.out.println();
    System.out.println(); }	} 
 
-static void oneofyourMethods(int n, 
-                       yourMethodParameter1,
-                       yourMethodParameter2, . . . ) {
+ static Node linearSearch(int key) {
+        for (int i = 0; i < records.length; i++) {
+            if (records[i].key == key) {
+                return records[i];
+            }
+        }
+        return null;
+    }
+
