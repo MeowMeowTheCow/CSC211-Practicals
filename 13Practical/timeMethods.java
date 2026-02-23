@@ -40,7 +40,7 @@ public static void main(String args[])throws IOException {
          linearSearch(searchKeys[repetition]);
          finish = System.nanoTime();
             
-         time = (double)(finish - start) / 1_000_000; // convert to milliseconds
+         time = (double)(finish - start) / 1000000;
          linearTime += time;
          linearTime2 += (time * time);
       }
@@ -54,8 +54,7 @@ public static void main(String args[])throws IOException {
          binarySearch(searchKeys[repetition]);
          finish = System.nanoTime();
             
-         time = (double)(finish - start) / 1_000_000; // convert to milliseconds
-         binaryTime += time;
+         time = (double)(finish - start) / 1000000;
          binaryTime2 += (time * time);
       }
         
