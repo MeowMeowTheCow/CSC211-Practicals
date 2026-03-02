@@ -1,123 +1,95 @@
-import java.util.Objects;
 public class openHash {
 
-    private enum State { EMPTY, OCCUPIED, DELETED }
-
-    private static class Entry {
-        String key;
-        String value;
-        State state = State.EMPTY;
-    }
-
+    private final String[] keys;
+    private final String[] values;
     private final int m;
-    private final Entry[] table; 
     private int size;
 
+    private static final String DELETED = new String("<DELETED>");
+
     public openHash(int m) {
-        if (m < 3) throw new IllegalArgumentException("m must be >= 3");
         this.m = m;
-        this.table = new Entry[m + 1];
-        for (int i = 0; i <= m; i++) table[i] = new Entry();
+        this.keys = new String[m + 1];
+        this.values = new String[m + 1];
         this.size = 0;
     }
 
-    public int size() {
-        return size;
+    private int hash(String key) {
+        int h = key.hashCode() & 0x7fffffff;
+        return (h % m) + 1;
     }
 
-    public boolean isEmpty() {
-        return size == 0;
-    }
+    public void insert(String key, String value) {
+        if (key == null) throw new IllegalArgumentException();
+        if (size >= m) return;
 
-    public int hash(String key) {
-        Objects.requireNonNull(key, "key");
-        return Math.floorMod(key.hashCode(), m) + 1;
-    }
-
-    public boolean insert(String key, String value) {
-        Objects.requireNonNull(key, "key");
-        Objects.requireNonNull(value, "value");
-
-        if (size == m) return false;
-
-        int start = hash(key);
+        int i = hash(key);
         int firstDeleted = -1;
 
-        for (int probe = 0; probe < m; probe++) {
-            int idx = probeIndex(start, probe);
-            Entry e = table[idx];
+        for (int probes = 0; probes < m; probes++) {
+            String k = keys[i];
 
-            if (e.state == State.EMPTY) {
-                int target = (firstDeleted != -1) ? firstDeleted : idx;
-                table[target].key = key;
-                table[target].value = value;
-                table[target].state = State.OCCUPIED;
+            if (k == null) {
+                if (firstDeleted != -1) i = firstDeleted;
+                keys[i] = key;
+                values[i] = value;
                 size++;
-                return true;
+                return;
             }
 
-            if (e.state == State.DELETED) {
-                if (firstDeleted == -1) firstDeleted = idx;
-                continue;
+            if (k == DELETED) {
+                if (firstDeleted == -1) firstDeleted = i;
+            } else if (k.equals(key)) {
+                values[i] = value;
+                return;
             }
 
-            if (key.equals(e.key)) {
-                e.value = value;
-                return false;
-            }
+            i = (i % m) + 1;
         }
 
         if (firstDeleted != -1) {
-            table[firstDeleted].key = key;
-            table[firstDeleted].value = value;
-            table[firstDeleted].state = State.OCCUPIED;
+            keys[firstDeleted] = key;
+            values[firstDeleted] = value;
             size++;
-            return true;
         }
-
-        return false;
     }
 
     public String lookup(String key) {
-        Objects.requireNonNull(key, "key");
+        if (key == null) return null;
 
-        int start = hash(key);
+        int i = hash(key);
 
-        for (int probe = 0; probe < m; probe++) {
-            int idx = probeIndex(start, probe);
-            Entry e = table[idx];
+        for (int probes = 0; probes < m; probes++) {
+            String k = keys[i];
 
-            if (e.state == State.EMPTY) return null;
-            if (e.state == State.OCCUPIED && key.equals(e.key)) return e.value;
+            if (k == null) return null;
+            if (k != DELETED && k.equals(key)) return values[i];
+
+            i = (i % m) + 1;
         }
         return null;
     }
 
     public String remove(String key) {
-        Objects.requireNonNull(key, "key");
+        if (key == null) return null;
 
-        int start = hash(key);
+        int i = hash(key);
 
-        for (int probe = 0; probe < m; probe++) {
-            int idx = probeIndex(start, probe);
-            Entry e = table[idx];
+        for (int probes = 0; probes < m; probes++) {
+            String k = keys[i];
 
-            if (e.state == State.EMPTY) return null;
+            if (k == null) return null;
 
-            if (e.state == State.OCCUPIED && key.equals(e.key)) {
-                String old = e.value;
-                e.key = null;
-                e.value = null;
-                e.state = State.DELETED;
+            if (k != DELETED && k.equals(key)) {
+                String val = values[i];
+                keys[i] = DELETED;
+                values[i] = null;
                 size--;
-                return old;
+                return val;
             }
+
+            i = (i % m) + 1;
         }
         return null;
-    }
-
-    private int probeIndex(int start, int probe) {
-        int raw = start + probe;
-        return (raw <= m) ? raw : ((raw - 1) % m) + 1;
     }
 }

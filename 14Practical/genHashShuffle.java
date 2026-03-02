@@ -11,9 +11,8 @@ public class genHashShuffle {
 
     public static void main(String[] args) {
         int[] keys = new int[N];
-        for (int i = 0; i < N; i++) keys[i] = i + 1; 
+        for (int i = 0; i < N; i++) keys[i] = i + 1;
 
-        
         shuffle(keys, new Random(42));
 
         String[] entryKeys = new String[maxUsed];
@@ -31,28 +30,30 @@ public class genHashShuffle {
             double alpha = (double) noInserts / M;
             double openHashTime = 0.0, chainedHashTime = 0.0;
 
-            Random r = new Random(12345);
-
             for (int i = 0; i < reps; i++) {
-                openHash openHash = new openHash(M);
-                chainedHash chainedHash = new chainedHash(M);
+                openHash oHash = new openHash(M);
+                chainedHash cHash = new chainedHash(M);
 
                 for (int j = 0; j < noInserts; j++) {
-                    openHash.insert(entryKeys[j], entryValues[j]);
-                    chainedHash.insert(entryKeys[j], entryValues[j]);
+                    oHash.insert(entryKeys[j], entryValues[j]);
+                    cHash.insert(entryKeys[j], entryValues[j]);
+                }
+
+                int[] searchIdx = new int[searches];
+                Random r = new Random(12345L + i);
+                for (int j = 0; j < searches; j++) {
+                    searchIdx[j] = r.nextInt(noInserts);
                 }
 
                 long start = System.nanoTime();
                 for (int j = 0; j < searches; j++) {
-                    String k = entryKeys[r.nextInt(noInserts)];
-                    openHash.lookup(k);
+                    oHash.lookup(entryKeys[searchIdx[j]]);
                 }
                 openHashTime += (System.nanoTime() - start) / 1e9;
 
                 start = System.nanoTime();
                 for (int j = 0; j < searches; j++) {
-                    String k = entryKeys[r.nextInt(noInserts)];
-                    chainedHash.lookup(k);
+                    cHash.lookup(entryKeys[searchIdx[j]]);
                 }
                 chainedHashTime += (System.nanoTime() - start) / 1e9;
             }
