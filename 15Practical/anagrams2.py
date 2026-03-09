@@ -53,12 +53,6 @@ def main():
 			A[a] = [w]
 		else:
 			A[a].append(w)
-	while line != "":
-		word = line[:-1]
-		print ("<%s>" % word)
-		tryanagram = signature(word)
-		if tryanagram in A:
-			print (word, A[tryanagram])
 	
 	f = open("anagrams", 'w')
 	for key in A.keys():
@@ -76,12 +70,14 @@ def main():
 				print (anagramlist, end = "\\\\\n", file = f)
 	f.close()
 	
-	s = System ("sort anagrams > anagrams.sorted")
+	with open("anagrams", 'r') as asf:
+		aa = sorted(asf.readlines())
 	
-	asf = open("anagrams.sorted", 'r')
-	aa = asf.readlines()
-	asf.close()
-	
+	# Ensure the latex directory exists
+	import os
+	if not os.path.exists("latex"):
+		os.makedirs("latex")
+		
 	asftex = open("latex/theAnagrams.tex", 'w')
 	letter = 'X'
 	for lemma in aa:
@@ -93,7 +89,11 @@ def main():
 	
 	asftex.close() 
 	
-	s = System ("rm anagrams anagrams.sorted")
+	import os
+	try:
+		os.remove("anagrams")
+	except OSError:
+		pass
 	
 if __name__ == "__main__":
 	main()
