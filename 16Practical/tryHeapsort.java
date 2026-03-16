@@ -141,7 +141,7 @@ public class tryHeapsort {
         System.out.println("  Sorted: " + Arrays.toString(buDemo));
  
         System.out.println("\n(b) Top-Down Build:");
-        dh.buildTopDown(demo);
+        dh.TopDown(demo);
         dh.printHeap(20);
         String[] tdDemo = dh.heapSort();
         System.out.println("  Sorted: " + Arrays.toString(tdDemo));
@@ -172,7 +172,7 @@ public class tryHeapsort {
  
         for (int r = 0; r < REPS; r++) {
             long t0 = System.nanoTime();
-            heap.buildTopDown(words);
+            heap.TopDown(words);
             tdBuild[r] = (System.nanoTime() - t0) / 1e6;
  
             t0 = System.nanoTime();
