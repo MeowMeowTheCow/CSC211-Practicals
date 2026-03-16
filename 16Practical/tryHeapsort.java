@@ -1,6 +1,6 @@
 //tryHeapsort.java
 // CSC 211 - Practical 6 - Heapsort Timings
-// Assited by Claude in adapting the old timing methods for the heapsort (claude.ai, free version)
+// Assited by Claude in adapting the old timing methods for the heapsort, debugging and minor formatting (claude.ai, free version)
 
 import java.io.*;
 import java.text.*;
@@ -78,7 +78,7 @@ public class tryHeapsort {
             if (r < n && a[r].compareTo(a[smallest]) < 0) smallest = r;
             if (smallest != i) {
                 String t = a[i]; a[i] = a[smallest]; a[smallest] = t;
-                siftDownLocal(a, smallest, n);
+                shiftDownLocal(a, smallest, n);
             }
         }
 
@@ -203,11 +203,11 @@ public class tryHeapsort {
         System.out.printf ("  Ratio  (TD/BU)  : %10.4fx%n",   tdTotal / buTotal);
 
 
-        boolean ok = true;
+        boolean isCorrect = true;
         for (int i = 1; i < result.length; i++)
-            if (result[i].compareTo(result[i-1]) < 0) { ok = false; break; }
+            if (result[i].compareTo(result[i-1]) < 0) { isCorrect = false; break; }
  
-        System.out.println("\n  Sort correct    : " + ok);
+        System.out.println("\n  Sort correct    : " + isCorrect);
         System.out.println("  First 10 words  : "
             + Arrays.toString(Arrays.copyOf(result, 10)));
         System.out.println("  Last  10 words  : "
