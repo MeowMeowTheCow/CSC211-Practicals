@@ -89,7 +89,7 @@ public class Anagrams {
                 letter = initial;
                 asftex.println("\n\\vspace{14pt}\n\\noindent\\textbf{\\Large " + Character.toUpperCase(initial) + "}\\\\*[+12pt]");
             }
-            asftex.print(lemma + "\n");
+            asftex.print(lemma + "\n"); 
         }
         asftex.close();
 
