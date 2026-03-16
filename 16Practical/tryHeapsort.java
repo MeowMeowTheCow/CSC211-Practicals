@@ -1,24 +1,23 @@
 //tryHeapsort.java
 // CSC 211 - Practical 6 - Heapsort Timings
 // Assited by Claude in adapting the old timing methods for the heapsort, debugging and minor formatting (claude.ai, free version)
-
 import java.io.*;
 import java.text.*;
 import java.util.*;
 
 public class tryHeapsort {
 
-    static class StringHeap {
+    static class StringHeap { // Min-heap of strings
 
         private String[] heap;
         private int size;
 
-        StringHeap(int capacity) {
+        StringHeap(int capacity) {// Initialize the heap with a given capacity
             heap = new String[capacity];
             size = 0;
         }
 
-        private int parent(int i) { return (i - 1) / 2; }
+        private int parent(int i) { return (i - 1) / 2; } 
         private int left(int i)   { return 2 * i + 1;   }
         private int right(int i)  { return 2 * i + 2;   }
 
@@ -26,7 +25,7 @@ public class tryHeapsort {
             String t = heap[i]; heap[i] = heap[j]; heap[j] = t;
         }
 
-        private void shiftDown(int i, int n) {
+        private void shiftDown(int i, int n) {// Used in Bottom-Up build
             int smallest = i;
             int l = left(i), r = right(i);
             if (l < n && heap[l].compareTo(heap[smallest]) < 0) smallest = l;
@@ -34,21 +33,21 @@ public class tryHeapsort {
             if (smallest != i) { swap(i, smallest); shiftDown(smallest, n); }
         }
 
-        private void shiftUp(int i) {
+        private void shiftUp(int i) {// Used in Top-Down build
             while (i > 0 && heap[i].compareTo(heap[parent(i)]) < 0) {
                 swap(i, parent(i));
                 i = parent(i);
             }
         }
 
-        void buildBottomUp(String[] words) {
+        void buildBottomUp(String[] words) {//Bottom-Up build: O(n)
             size = words.length;
             System.arraycopy(words, 0, heap, 0, size);
             for (int i = (size / 2) - 1; i >= 0; i--)
                 shiftDown(i, size);
         }
 
-        void TopDown(String[] words) {
+        void TopDown(String[] words) {// Top-Down build: O(n log n)
             size = 0;
             for (String w : words) {
                 heap[size] = w;
@@ -71,7 +70,7 @@ public class tryHeapsort {
             return snap;
         }
 
-        private void shiftDownLocal(String[] a, int i, int n) {
+        private void shiftDownLocal(String[] a, int i, int n) { // Local version of shiftDown for heapSort, to avoid modifying the original heap array
             int smallest = i;
             int l = 2*i+1, r = 2*i+2;
             if (l < n && a[l].compareTo(a[smallest]) < 0) smallest = l;
@@ -82,7 +81,7 @@ public class tryHeapsort {
             }
         }
 
-        void printHeap(int limit) {
+        void printHeap(int limit) { // Print the first 'limit' elements of the heap for demonstration
             int cap = Math.min(limit, size);
             System.out.print("  Heap [first " + cap + "]: ");
             for (int i = 0; i < cap; i++)
@@ -91,7 +90,7 @@ public class tryHeapsort {
         }
     }
 
-    static String[] loadWords(String filename) throws IOException {
+    static String[] loadWords(String filename) throws IOException {//Load unique words from the file, ignoring case and non-alphabetic characters
         Set<String> seen = new LinkedHashSet<>();
         BufferedReader br = new BufferedReader(new FileReader(filename));
         String line;
@@ -102,7 +101,7 @@ public class tryHeapsort {
         return seen.toArray(new String[0]);
     }
 
-    static void printStats(String label, double[] times) {
+    static void printStats(String label, double[] times) {// Print timing statistics for a set of runs
         DecimalFormat f4 = new DecimalFormat("0.0000");
         int reps = times.length;
         double sum = 0, sum2 = 0;
@@ -119,7 +118,7 @@ public class tryHeapsort {
 
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException {// Main method to run the heapsort demo and timing tests
 
         String filename = (args.length > 0) ? args[0] : "ulysses.text";
         String[] words = loadWords(filename);
@@ -203,7 +202,7 @@ public class tryHeapsort {
         System.out.printf ("  Ratio  (TD/BU)  : %10.4fx%n",   tdTotal / buTotal);
 
 
-        boolean isCorrect = true;
+        boolean isCorrect = true; // Verify that the result is sorted correctly
         for (int i = 1; i < result.length; i++)
             if (result[i].compareTo(result[i-1]) < 0) { isCorrect = false; break; }
  
