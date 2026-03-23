@@ -13,6 +13,7 @@ class mNode { // main node class for BST
     public mNode(int item) {
         key = item;
         left = right = null;
+        
     }
 }
 
