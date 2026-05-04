@@ -1,4 +1,4 @@
-// geeksforgeeks.org was used as a reference for the implementation of the h
+// geeksforgeeks.org was used as a reference for the implementation of the ternary heap
 
 public class Practical23A {
 
@@ -13,7 +13,7 @@ public class Practical23A {
 
             for (int j = 0; j < 3; j++) { // calculates the indices of the children for the current node
 
-                int childIndex = 3 * i - 1 + j;
+                int childIndex = 3 * i + j + 1;
 
                 if (childIndex < heap.length) { 
                     if (hasChildren){
@@ -33,35 +33,36 @@ public class Practical23A {
     }
 
     public static int validate(int[] heap) {
-        if (heap == null || heap.length <= 1) return 1;
+    if (heap == null || heap.length <= 1) {
+        return 1;
+    }
+    boolean isMinHeap = true;
+    boolean isMaxHeap = true;
 
-        boolean isMinHeap = true;
-        boolean isMaxHeap = true;
+    for (int i = 0; i < heap.length; i++) {
 
-        for (int i = 1; i < heap.length; i++) {
+        for (int j = 0; j < 3; j++) {
+            int childIndex = 3 * i + j + 1;
 
-            for (int j = 0; j < 3; j++) {
-                int childIndex = 3 * i - 1 + j;
+            if (childIndex < heap.length) {
 
-                if (childIndex < heap.length) {
-                  
-                    if (heap[i] > heap[childIndex]){
-                        isMinHeap = false;
-                    }
-    
-                    if (heap[i] < heap[childIndex]){
-                        isMaxHeap = false;
-                    } isMaxHeap = false;
+                if (heap[i] > heap[childIndex]) {
+                    isMinHeap = false;
+                }
+
+                if (heap[i] < heap[childIndex]) {
+                    isMaxHeap = false;
                 }
             }
         }
-
-        if (isMinHeap || isMaxHeap) {
-            return 1;
-        } else {
-            return -1;
-        }
     }
+
+    if (isMinHeap || isMaxHeap) { 
+        return 1;
+    } else {
+        return -1;
+    }
+}
 
     public static void main(String[] args) {
    
@@ -70,7 +71,7 @@ public class Practical23A {
         print(minHeap);
         System.out.println("Validation (Expected 1): " + validate(minHeap) + "\n");
 
-        int[] maxHeap = {0, 100, 50, 40, 30, 10, -5}; // valid max heap
+        int[] maxHeap = {505, 100, 50, 40, 30, 10, -5}; // valid max heap
         System.out.println("Testing Max Heap:");
         print(maxHeap);
         System.out.println("Validation (Expected 1): " + validate(maxHeap) + "\n");
