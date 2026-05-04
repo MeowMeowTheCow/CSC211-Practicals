@@ -32,14 +32,14 @@ public class Practical23A {
         }
     }
 
-    public static int validate(int[] heap) {
+    public static int validate(int[] heap) { // validates whether the given array represents a valid ternary heap (either min-heap or max-heap)
     if (heap == null || heap.length <= 1) {
         return 1;
     }
     boolean isMinHeap = true;
     boolean isMaxHeap = true;
 
-    for (int i = 0; i < heap.length; i++) {
+    for (int i = 0; i < heap.length; i++) { // iterates through each node and compares it with its children to determine if the heap property is maintained
 
         for (int j = 0; j < 3; j++) {
             int childIndex = 3 * i + j + 1;
